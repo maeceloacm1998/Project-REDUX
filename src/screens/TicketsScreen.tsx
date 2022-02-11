@@ -1,23 +1,28 @@
+import { RouteProp } from "@react-navigation/native";
+import { StackNavigationOptions } from "@react-navigation/stack";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import HeaderTicketList from "../components/HeaderTicketsLIst/HeaderTicketList";
+import colors from "../theme/colors";
+import { ScreenNavigationProp } from "../utils/types";
 
-export default function TicketsScreen() {
+type TicketScreenProps = {
+  navigation: ScreenNavigationProp;
+};
+
+export default function TicketsScreen({ navigation }: TicketScreenProps) {
+  const createTicket = () => navigation.navigate("CriarTicket");
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#fff",
+      backgroundColor: colors.background,
     },
   });
 
   return (
     <View style={styles.container}>
-      <HeaderTicketList
-        onPressButton={() => {
-          console.log("deu");
-        }}
-      />
-      <Text style={{ color: "#000" }}> Essa dauqi e a tela do ticket</Text>
+      <HeaderTicketList onPressButton={createTicket} />
     </View>
   );
 }

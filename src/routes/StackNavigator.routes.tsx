@@ -16,7 +16,7 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="Criar-Ticket"
+        name="CriarTicket"
         component={CreateTicketScreen}
         options={{
           headerShown: false,
