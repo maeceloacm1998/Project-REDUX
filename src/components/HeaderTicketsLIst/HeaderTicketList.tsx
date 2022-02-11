@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
+import colors from "../../theme/colors";
 
 interface HeaderTicketList {
   onPressButton: () => void;
@@ -20,17 +21,17 @@ const HeaderTicketList = (props: HeaderTicketList) => {
       paddingHorizontal: 20,
       justifyContent: "space-between",
       alignItems: "center",
-      backgroundColor: "#401453",
+      backgroundColor: colors.primary,
       flexDirection: "row",
     },
     title: {
       fontSize: 20,
-      color: "#fff",
+      color: colors.textLight,
     },
     pressNewTicket: {
       height: 30,
       width: 60,
-      backgroundColor: "#fff",
+      backgroundColor: colors.background,
       justifyContent: "center",
       alignItems: "center",
       borderRadius: 5,
@@ -38,7 +39,7 @@ const HeaderTicketList = (props: HeaderTicketList) => {
     text: {
       fontSize: 15,
       fontWeight: "bold",
-      color: "#401453",
+      color: colors.primary,
     },
   });
 
