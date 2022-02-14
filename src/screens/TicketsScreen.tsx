@@ -8,6 +8,7 @@ import TicketCard from "../components/TicketCard/TicketCard";
 import colors from "../theme/colors";
 import { ScreenProps, Ticket } from "../utils/types";
 import { ApplicationReducer, getListTickets } from "../redux";
+import { Alert } from "react-native";
 
 export default function TicketsScreen({ navigation }: ScreenProps) {
   const dispatch = useDispatch();
@@ -16,6 +17,23 @@ export default function TicketsScreen({ navigation }: ScreenProps) {
   const listTickets: Array<Ticket> = useSelector(
     (state: ApplicationReducer) => state.dataTicket.listTickets
   );
+
+  const alertRemoveTicket = (ticketID: string) => {
+    Alert.alert("Atenção!", "Deseja deletar esse ticket?", [
+      {
+        text: "DELETAR",
+        onPress: () => {
+          removeTicket(ticketID);
+        },
+      },
+      {
+        text: "CANCELAR",
+        onPress: () => {
+          console.log("Onpress cancel.");
+        },
+      },
+    ]);
+  };
 
   const removeTicket = (ticketID: string) => {
     const newListTicket = listTickets.filter((item) => item.id !== ticketID);
@@ -41,7 +59,7 @@ export default function TicketsScreen({ navigation }: ScreenProps) {
           <TicketCard
             item={item}
             onPressCard={pressTicketCard}
-            onPressRemove={removeTicket}
+            onPressRemove={alertRemoveTicket}
           />
         ))}
       </ScrollView>

@@ -28,7 +28,7 @@ const TicketCard = (props: TicketCardType) => {
     container: {
       width: "100%",
       padding: 15,
-      marginVertical: 18,
+      marginVertical: 10,
       justifyContent: "space-between",
       alignItems: "center",
       flexDirection: "row",
