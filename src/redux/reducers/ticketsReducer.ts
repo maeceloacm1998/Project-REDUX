@@ -1,5 +1,7 @@
+import { Ticket } from "../../utils/types";
+
 type TicketsStateModel = {
-  listTickets: Array<any>;
+  listTickets: Array<Ticket>;
 };
 
 const initialState: TicketsStateModel = {
@@ -16,5 +18,7 @@ export const TicketsReducer = (
         ...state,
         listTickets: action.payload,
       };
+      default:
+        return state
   }
 };
