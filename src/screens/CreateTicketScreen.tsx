@@ -1,12 +1,40 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+
+import { ApplicationReducer, getListTickets } from "../redux";
 import InputCreateTicketScreen from "../components/InputCreateTicketScreen/InputCreateTicketScreen";
 import colors from "../theme/colors";
+import { ScreenProps, Ticket } from "../utils/types";
+import { getCurrentDate } from "../utils/CurrentDate";
 
-export default function CreateTicketScreen() {
+export type CreateTicket = {
+  name: string;
+  years: number;
+  description: string;
+};
+
+export default function CreateTicketScreen({ navigation }: ScreenProps) {
   const { control, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+  const getTickets = useSelector(
+    (state: ApplicationReducer) => state.dataTicket.listTickets
+  );
+
+  const onSubmit = (data: CreateTicket) => {
+    const { description, name, years } = data;
+    const newTicket: Ticket = {
+      dtCreated: getCurrentDate().toString(),
+      id: new Date().getTime().toString(),
+      description,
+      name,
+      years,
+    };
+
+    dispatch(getListTickets([...getTickets, newTicket]));
+    navigation.navigate("Tickets");
+  };
 
   const styles = StyleSheet.create({
     container: {
@@ -67,12 +95,7 @@ export default function CreateTicketScreen() {
         />
       </View>
 
-      <Pressable
-        style={styles.pressButton}
-        onPressIn={() => {
-          console.log("dada");
-        }}
-      >
+      <Pressable style={styles.pressButton} onPressIn={handleSubmit(onSubmit)}>
         <Text style={styles.textButton}>Criar Ticket</Text>
       </Pressable>
     </View>

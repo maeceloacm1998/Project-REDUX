@@ -7,9 +7,10 @@ import {
   Pressable,
 } from "react-native";
 import colors from "../../theme/colors";
+import { Ticket } from "../../utils/types";
 
 interface TicketCardType {
-  item: any;
+  item: Ticket;
   onPressCard: (event: GestureResponderEvent) => void;
   onPressRemove: (event: GestureResponderEvent) => void;
 }
@@ -65,10 +66,10 @@ const TicketCard = (props: TicketCardType) => {
     <Pressable style={styles.container} onPressIn={onPressCard}>
       <View>
         <Text style={styles.text}>
-          <Text style={styles.label}>Data:</Text> {item}
+          <Text style={styles.label}>Data:</Text> {item?.dtCreated}
         </Text>
         <Text style={styles.text}>
-          <Text style={styles.label}>ID:</Text> {item}
+          <Text style={styles.label}>ID:</Text> {item?.id}
         </Text>
       </View>
 
