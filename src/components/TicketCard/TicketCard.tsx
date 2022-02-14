@@ -12,7 +12,7 @@ import { Ticket } from "../../utils/types";
 interface TicketCardType {
   item: Ticket;
   onPressCard: (event: GestureResponderEvent) => void;
-  onPressRemove: (event: GestureResponderEvent) => void;
+  onPressRemove: (ticketID: string) => void;
 }
 
 const translate = (props: TicketCardType) => ({
@@ -73,7 +73,14 @@ const TicketCard = (props: TicketCardType) => {
         </Text>
       </View>
 
-      <Pressable style={styles.pressRemoveButton} onPressIn={onPressRemove}>
+      <Pressable
+        style={styles.pressRemoveButton}
+        onPressIn={() => {
+          if (item?.id) {
+            onPressRemove(item.id);
+          }
+        }}
+      >
         <Text style={styles.textRemoveButton}>Deletar</Text>
       </Pressable>
     </Pressable>

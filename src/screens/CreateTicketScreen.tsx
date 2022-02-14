@@ -22,8 +22,8 @@ export default function CreateTicketScreen({ navigation }: ScreenProps) {
     (state: ApplicationReducer) => state.dataTicket.listTickets
   );
 
-  const onSubmit = (data: CreateTicket) => {
-    const { description, name, years } = data;
+  const onSubmit = (data: any) => {
+    const { description, name, years }: CreateTicket = data;
     const newTicket: Ticket = {
       dtCreated: getCurrentDate().toString(),
       id: new Date().getTime().toString(),

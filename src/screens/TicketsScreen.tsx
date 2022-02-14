@@ -1,27 +1,25 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
+import React from "react";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 
 import HeaderTicketList from "../components/HeaderTicketsLIst/HeaderTicketList";
 import TicketCard from "../components/TicketCard/TicketCard";
 
 import colors from "../theme/colors";
 import { ScreenProps, Ticket } from "../utils/types";
-import { ApplicationReducer } from "../redux";
+import { ApplicationReducer, getListTickets } from "../redux";
 
 export default function TicketsScreen({ navigation }: ScreenProps) {
+  const dispatch = useDispatch();
   const createTicket = () => navigation.navigate("CriarTicket");
   const pressTicketCard = () => console.log("press card");
-  const listTickets = useSelector(
+  const listTickets: Array<Ticket> = useSelector(
     (state: ApplicationReducer) => state.dataTicket.listTickets
   );
 
-  useEffect(() => {
-    console.log(listTickets);
-  }, []);
-
-  const removeTicket = () => {
-    console.log("remove ticket");
+  const removeTicket = (ticketID: string) => {
+    const newListTicket = listTickets.filter((item) => item.id !== ticketID);
+    dispatch(getListTickets(newListTicket));
   };
 
   const styles = StyleSheet.create({
@@ -31,7 +29,6 @@ export default function TicketsScreen({ navigation }: ScreenProps) {
     },
     containerTicketsList: {
       flex: 1,
-      alignItems: "center",
       paddingHorizontal: 20,
     },
   });
@@ -39,15 +36,15 @@ export default function TicketsScreen({ navigation }: ScreenProps) {
   return (
     <View style={styles.container}>
       <HeaderTicketList onPressButton={createTicket} />
-      <View style={styles.containerTicketsList}>
-        {listTickets.map((item: Ticket) => (
+      <ScrollView style={styles.containerTicketsList}>
+        {listTickets.map((item) => (
           <TicketCard
             item={item}
             onPressCard={pressTicketCard}
             onPressRemove={removeTicket}
           />
         ))}
-      </View>
+      </ScrollView>
     </View>
   );
 }
