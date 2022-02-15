@@ -7,13 +7,23 @@ import {
   KeyboardTypeOptions,
 } from "react-native";
 
-import { Control, Controller } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  FieldValues,
+  InternalFieldName,
+  RegisterOptions,
+} from "react-hook-form";
 import { ControllerRenderType } from "../../utils/types";
 import colors from "../../theme/colors";
 
 interface InputCreateTicketScreen {
   control: Control;
   name: string;
+  rules?: Omit<
+    RegisterOptions<FieldValues, InternalFieldName>,
+    "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
+  >;
   placeholder?: string;
   placeholderTextColor?: string;
   keyboardType?: KeyboardTypeOptions;
@@ -24,6 +34,7 @@ interface InputCreateTicketScreen {
 const translate = (props: InputCreateTicketScreen) => ({
   control: props.control,
   name: props.name ? props.name : "default",
+  rules: props.rules ? props.rules : {},
   placeholder: props.placeholder ? props.placeholder : "",
   placeholderTextColor: props.placeholderTextColor
     ? props.placeholderTextColor
@@ -41,6 +52,7 @@ const InputCreateTicketScreen = (props: InputCreateTicketScreen) => {
     placeholder,
     placeholderTextColor,
     multiline,
+    rules,
     keyboardType,
   } = translate(props);
 
@@ -71,7 +83,14 @@ const InputCreateTicketScreen = (props: InputCreateTicketScreen) => {
     },
   });
 
-  return <Controller control={control} render={renderItem} name={name} />;
+  return (
+    <Controller
+      control={control}
+      render={renderItem}
+      name={name}
+      rules={rules}
+    />
+  );
 };
 
 export default InputCreateTicketScreen;
