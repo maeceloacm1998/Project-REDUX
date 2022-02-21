@@ -16,7 +16,12 @@ export type CreateTicket = {
 };
 
 export default function CreateTicketScreen({ navigation }: ScreenProps) {
-  const { control, handleSubmit } = useForm();
+  const {
+    control,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm();
   const dispatch = useDispatch();
   const getTickets = useSelector(
     (state: ApplicationReducer) => state.dataTicket.listTickets
@@ -24,6 +29,16 @@ export default function CreateTicketScreen({ navigation }: ScreenProps) {
 
   const onSubmit = (data: any) => {
     const { description, name, years }: CreateTicket = data;
+
+    switch (data) {
+      case data.name:
+        setError("name", {
+          type: "manual",
+          message: "Required",
+        });
+        return;
+    }
+
     const newTicket: Ticket = {
       dtCreated: getCurrentDate().toString(),
       id: new Date().getTime().toString(),
@@ -78,6 +93,8 @@ export default function CreateTicketScreen({ navigation }: ScreenProps) {
           name="name"
           placeholder="Nome"
           customStyle={styles.input}
+          rules={{ required: true }}
+          error={errors}
         />
         <InputCreateTicketScreen
           control={control}
@@ -85,12 +102,14 @@ export default function CreateTicketScreen({ navigation }: ScreenProps) {
           placeholder="Idade"
           keyboardType="number-pad"
           customStyle={styles.input}
+          rules={{ required: true, maxLength: 3 }}
         />
         <InputCreateTicketScreen
           control={control}
           name="description"
           placeholder="Descrição"
           multiline={true}
+          rules={{ required: true, maxLength: 200 }}
           customStyle={[styles.input, styles.inputMultiline]}
         />
       </View>

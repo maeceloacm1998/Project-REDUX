@@ -5,11 +5,13 @@ import {
   StyleProp,
   ViewStyle,
   KeyboardTypeOptions,
+  Text,
 } from "react-native";
 
 import {
   Control,
   Controller,
+  FieldErrors,
   FieldValues,
   InternalFieldName,
   RegisterOptions,
@@ -24,6 +26,7 @@ interface InputCreateTicketScreen {
     RegisterOptions<FieldValues, InternalFieldName>,
     "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
   >;
+  error?: FieldErrors<FieldValues>;
   placeholder?: string;
   placeholderTextColor?: string;
   keyboardType?: KeyboardTypeOptions;
@@ -35,6 +38,7 @@ const translate = (props: InputCreateTicketScreen) => ({
   control: props.control,
   name: props.name ? props.name : "default",
   rules: props.rules ? props.rules : {},
+  error: props.error && props.error,
   placeholder: props.placeholder ? props.placeholder : "",
   placeholderTextColor: props.placeholderTextColor
     ? props.placeholderTextColor
@@ -53,21 +57,25 @@ const InputCreateTicketScreen = (props: InputCreateTicketScreen) => {
     placeholderTextColor,
     multiline,
     rules,
+    error,
     keyboardType,
   } = translate(props);
 
   const renderItem = ({ field: { onChange, value } }: ControllerRenderType) => {
     return (
-      <TextInput
-        onChangeText={onChange}
-        value={value}
-        placeholder={placeholder}
-        keyboardType={keyboardType}
-        multiline={multiline}
-        placeholderTextColor={placeholderTextColor}
-        autoCapitalize="none"
-        style={[styles.input, customStyle]}
-      />
+      <>
+        <TextInput
+          onChangeText={onChange}
+          value={value}
+          placeholder={placeholder}
+          keyboardType={keyboardType}
+          multiline={multiline}
+          placeholderTextColor={placeholderTextColor}
+          autoCapitalize="none"
+          style={[styles.input, customStyle]}
+        />
+        {error && <Text>{error.message}</Text>}
+      </>
     );
   };
 
